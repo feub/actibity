@@ -22,21 +22,19 @@ model Workout {
 }
 
 model Exercise {
-  id              Int               @id @default(autoincrement())
-  name            String            @db.VarChar(140)
-  note            String?
-  sets            Set[]
-  ExercisesOnSets ExercisesOnSets[]
+  id   Int               @id @default(autoincrement())
+  name String            @db.VarChar(140)
+  note String?
+  sets ExercisesOnSets[]
 }
 
 model Set {
-  id              Int               @id @default(autoincrement())
-  reps            Int               @default(1)
-  position        Int               @default(0)
-  workout         Workout           @relation(fields: [workoutId], references: [id])
-  workoutId       Int               @unique
-  exercises       Exercise[]
-  ExercisesOnSets ExercisesOnSets[]
+  id        Int               @id @default(autoincrement())
+  reps      Int               @default(1)
+  position  Int               @default(0)
+  workout   Workout           @relation(fields: [workoutId], references: [id])
+  workoutId Int
+  exercises ExercisesOnSets[]
 }
 
 model ExercisesOnSets {
