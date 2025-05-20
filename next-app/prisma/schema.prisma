@@ -1,0 +1,55 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+// Entities
+model Workout {
+  id        Int      @id @default(autoincrement())
+  name      String   @db.VarChar(140)
+  note      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  sets      Set[]
+}
+
+model Exercise {
+  id              Int               @id @default(autoincrement())
+  name            String            @db.VarChar(140)
+  note            String?
+  sets            Set[]
+  ExercisesOnSets ExercisesOnSets[]
+}
+
+model Set {
+  id              Int               @id @default(autoincrement())
+  reps            Int               @default(1)
+  position        Int               @default(0)
+  workout         Workout           @relation(fields: [workoutId], references: [id])
+  workoutId       Int               @unique
+  exercises       Exercise[]
+  ExercisesOnSets ExercisesOnSets[]
+}
+
+model ExercisesOnSets {
+  set        Set      @relation(fields: [setId], references: [id])
+  setId      Int
+  exercise   Exercise @relation(fields: [exerciseId], references: [id])
+  exerciseId Int
+  weight     Decimal? @db.Decimal(5, 2)
+  reps_time  String   @default("1")
+  position   Int      @default(0)
+  note       String?
+
+  @@id([setId, exerciseId])
+  @@index([setId])
+  @@index([exerciseId])
+}
