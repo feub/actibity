@@ -1,0 +1,121 @@
+{
+  "workouts": [
+    {
+      "id": "w001",
+      "name": "Upper Body Day",
+      "note": "Focus on arms and shoulders",
+      "created": "2025-05-15",
+      "updated": "2025-05-15",
+      "sets": [
+        {
+          "id": "s001",
+          "repetitions": 3,
+          "exercises": [
+            {
+              "id": "e001",
+              "name": "Biceps Curl",
+              "weight": "10kg",
+              "repetitions": "12 reps",
+              "note": "Focus on form, slow movement"
+            },
+            {
+              "id": "e002",
+              "name": "Triceps Extension",
+              "weight": "8kg",
+              "repetitions": "15 reps",
+              "note": "Keep elbows close to body"
+            }
+          ]
+        },
+        {
+          "id": "s002",
+          "repetitions": 4,
+          "exercises": [
+            {
+              "id": "e003",
+              "name": "Push-ups",
+              "weight": "bodyweight",
+              "repetitions": "20 reps",
+              "note": "Full range of motion"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "w002",
+      "name": "Leg Day",
+      "date": "2025-05-17",
+      "duration": 75,
+      "sets": [
+        {
+          "id": "s003",
+          "repetitions": 3,
+          "exercises": [
+            {
+              "id": "e004",
+              "name": "Sumo Squats",
+              "weight": "25kg",
+              "repetitions": "15 reps",
+              "note": "Wide stance, toes pointed out"
+            }
+          ]
+        },
+        {
+          "id": "s004",
+          "repetitions": 3,
+          "exercises": [
+            {
+              "id": "e005",
+              "name": "Lunges",
+              "weight": "15kg",
+              "repetitions": "12 reps each leg",
+              "note": "Alternate legs"
+            },
+            {
+              "id": "e006",
+              "name": "Calf Raises",
+              "weight": "20kg",
+              "time": "45 seconds",
+              "note": "Hold at top for 1 second"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "w003",
+      "name": "HIIT Circuit",
+      "date": "2025-05-19",
+      "duration": 45,
+      "sets": [
+        {
+          "id": "s005",
+          "repetitions": 5,
+          "exercises": [
+            {
+              "id": "e007",
+              "name": "Burpees",
+              "weight": "bodyweight",
+              "time": "30 seconds",
+              "note": "Full push-up at bottom"
+            },
+            {
+              "id": "e008",
+              "name": "Mountain Climbers",
+              "weight": "bodyweight",
+              "time": "45 seconds",
+              "note": "Keep core tight"
+            },
+            {
+              "id": "e009",
+              "name": "Rest",
+              "time": "15 seconds",
+              "note": "Breathe deeply"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
