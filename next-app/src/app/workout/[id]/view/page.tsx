@@ -1,39 +1,11 @@
-import prisma from "@/database/prisma";
+import { getWorkoutById } from "@/app/lib/data/workout";
 import Link from "next/link";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
   const id = params.id;
 
-  const workout = await prisma.workout.findUniqueOrThrow({
-    select: {
-      id: true,
-      name: true,
-      note: true,
-      sets: {
-        select: {
-          id: true,
-          reps: true,
-          ExercisesOnSets: {
-            select: {
-              weight: true,
-              reps_time: true,
-              position: true,
-              note: true,
-              exercise: {
-                select: {
-                  id: true,
-                  name: true,
-                  note: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-    where: { id: parseInt(id) },
-  });
+  const workout = await getWorkoutById(id);
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen gap-4">

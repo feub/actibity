@@ -1,35 +1,8 @@
-import prisma from "@/database/prisma";
 import Link from "next/link";
+import { getFullWorkouts } from "../lib/data/workout";
 
 export default async function Page() {
-  const workouts = await prisma.workout.findMany({
-    select: {
-      id: true,
-      name: true,
-      note: true,
-      sets: {
-        select: {
-          id: true,
-          reps: true,
-          ExercisesOnSets: {
-            select: {
-              weight: true,
-              reps_time: true,
-              position: true,
-              note: true,
-              exercise: {
-                select: {
-                  id: true,
-                  name: true,
-                  note: true,
-                },
-              },
-            },
-          },
-        },
-      },
-    },
-  });
+  const workouts = await getFullWorkouts();
 
   return (
     <div className="grid grid-rows-[auto_1fr_auto] min-h-screen gap-4">
