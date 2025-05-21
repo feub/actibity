@@ -12,12 +12,31 @@ datasource db {
 }
 
 // Entities
+model User {
+  id      Int      @id @default(autoincrement())
+  email   String   @unique
+  password String
+  name    String?
+  role    Role     @default(USER)
+  workouts   Workout[]
+  profile Profile?
+}
+
+model Profile {
+  id     Int    @id @default(autoincrement())
+  bio    String
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int    @unique
+}
+
 model Workout {
   id        Int      @id @default(autoincrement())
   name      String   @db.VarChar(140)
   note      String?
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  user   User   @relation(fields: [userId], references: [id])
+  userId Int
   sets      Set[]
 }
 
@@ -50,4 +69,9 @@ model ExercisesOnSets {
   @@id([setId, exerciseId])
   @@index([setId])
   @@index([exerciseId])
+}
+
+enum Role {
+  USER
+  ADMIN
 }
