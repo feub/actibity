@@ -25,7 +25,7 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
               <p className="text-sm text-amber-700">id: {set.id}</p>
             </div>
             <ol className="w-full">
-              {set.ExercisesOnSets.map((exercise) => (
+              {set.exercises.map((exercise) => (
                 <li
                   key={exercise.position}
                   className="w-full flex flex-col gap-4 items-center sm:items-start bg-amber-800 p-4 rounded-lg mb-4"

@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { getFullWorkouts } from "../lib/data/workout";
+import { lusitana } from "@/app/ui/fonts";
 
 export default async function Page() {
   const workouts = await getFullWorkouts();
 
   return (
-    <div className="max-w-4xl mx-auto flex flex-col gap-4 items-center sm:items-start px-4">
-      <h2>Workouts</h2>
+    <div className="max-w-4xl mx-auto flex flex-col gap-4 items-center sm:items-start p-4">
+      <h2 className={`text-4xl ${lusitana.className} antialiased`}>Workouts</h2>
       <ol className="w-full">
         {workouts.map((workout) => (
           <li
@@ -32,7 +33,7 @@ export default async function Page() {
                     <p className="text-sm text-amber-700">id: {set.id}</p>
                   </div>
                   <ol className="w-full">
-                    {set.ExercisesOnSets.map((exercise) => (
+                    {set.exercises.map((exercise) => (
                       <li
                         key={exercise.position}
                         className="w-full flex flex-col gap-4 items-center sm:items-start bg-amber-800 p-4 rounded-lg mb-4"

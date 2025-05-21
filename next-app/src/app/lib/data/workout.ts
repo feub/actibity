@@ -1,59 +1,65 @@
 import prisma from "@/database/prisma";
+import { Prisma } from "../../../../generated/prisma";
 
-export async function getFullWorkouts() {
+export type ExerciseOnSetWithExercise = {
+  exercise: {
+    id: number;
+    name: string;
+    note: string | null;
+  };
+  weight: Prisma.Decimal | null;
+  reps_time: string;
+  position: number;
+  note: string | null;
+};
+
+export type SetWithExercises = {
+  id: number;
+  reps: number;
+  position: number;
+  workoutId: number;
+  exercises: ExerciseOnSetWithExercise[];
+};
+
+export type WorkoutWithSets = {
+  id: number;
+  name: string;
+  note: string | null;
+  createdAt: Date;
+  updatedAt: Date;
+  sets: SetWithExercises[];
+};
+
+export async function getFullWorkouts(): Promise<WorkoutWithSets[]> {
   return await prisma.workout.findMany({
-    select: {
-      id: true,
-      name: true,
-      note: true,
+    include: {
       sets: {
-        select: {
-          id: true,
-          reps: true,
-          ExercisesOnSets: {
-            select: {
-              weight: true,
-              reps_time: true,
-              position: true,
-              note: true,
-              exercise: {
-                select: {
-                  id: true,
-                  name: true,
-                  note: true,
-                },
-              },
+        include: {
+          exercises: {
+            include: {
+              exercise: true,
             },
           },
         },
+        orderBy: {
+          position: "asc",
+        },
       },
+    },
+    orderBy: {
+      updatedAt: "desc",
     },
   });
 }
 
 export async function getWorkoutById(id: string) {
   return await prisma.workout.findUniqueOrThrow({
-    select: {
-      id: true,
-      name: true,
-      note: true,
+    include: {
       sets: {
-        select: {
-          id: true,
-          reps: true,
-          ExercisesOnSets: {
-            select: {
-              weight: true,
-              reps_time: true,
-              position: true,
-              note: true,
-              exercise: {
-                select: {
-                  id: true,
-                  name: true,
-                  note: true,
-                },
-              },
+        include: {
+          exercises: {
+            include: {
+              exercise: true,
             },
           },
         },
