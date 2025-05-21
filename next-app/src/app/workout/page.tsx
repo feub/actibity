@@ -1,73 +1,73 @@
 import Link from "next/link";
-import { getFullWorkouts } from "../lib/data/workout";
+import { getFullWorkoutsByUserId } from "../lib/data/workout";
+import { getUserById } from "../lib/data/user";
 import { lusitana } from "@/app/ui/fonts";
 
 export default async function Page() {
-  const workouts = await getFullWorkouts();
+  const user = await getUserById("1");
+  const workouts = await getFullWorkoutsByUserId("1");
+
+  const getWorkoutSetsAndExercisesCounts = (
+    workoutId: string,
+  ): { exercisesCount: number; setsCount: number } => {
+    const workout = workouts.find(
+      (workout) => workout.id === parseInt(workoutId),
+    );
+    if (!workout) {
+      return { exercisesCount: 0, setsCount: 0 };
+    }
+    const exercisesCount = workout.sets.reduce(
+      (acc, set) => acc + set.exercises.length,
+      0,
+    );
+    const setsCount = workout.sets.length;
+    return { exercisesCount, setsCount };
+  };
 
   return (
     <div className="max-w-4xl mx-auto flex flex-col gap-4 items-center sm:items-start p-4">
-      <h2 className={`text-4xl ${lusitana.className} antialiased`}>Workouts</h2>
+      <h3 className={`text-4xl ${lusitana.className} antialiased`}>
+        {user.name}
+        {"'"}s workouts ({workouts.length})
+      </h3>
+      <p></p>
       <ol className="w-full">
-        {workouts.map((workout) => (
-          <li
-            key={workout.id}
-            className="w-full flex flex-col gap-4 items-center sm:items-start bg-amber-950 p-4 rounded-xl mb-4"
-          >
-            <h3 className="text-3xl">
-              <Link href={`/workout/${workout.id}/view`}>{workout.name}</Link>
-            </h3>
-            {workout.note && (
-              <p className="text-sm text-amber-700">Note: {workout.note}</p>
-            )}
-            <ol className="w-full">
-              {workout.sets.map((set) => (
-                <li
-                  key={set.id}
-                  className="w-full flex flex-col gap-4 items-center sm:items-start bg-amber-900 p-4 rounded-xl mb-4"
-                >
-                  <div className="w-full flex justify-between items-center">
-                    <h4 className="text-2xl">
-                      Set to be repeated {set.reps} times
-                    </h4>
-                    <p className="text-sm text-amber-700">id: {set.id}</p>
+        {workouts.map((workout) => {
+          const {
+            exercisesCount,
+            setsCount,
+          }: { exercisesCount: number; setsCount: number } =
+            getWorkoutSetsAndExercisesCounts(workout.id.toString());
+          return (
+            <div key={workout.id}>
+              <Link href={`/workout/${workout.id}/view`}>
+                <li className="w-full flex flex-col gap-4 items-center sm:items-start bg-amber-950 p-4 rounded-xl mb-4">
+                  <div className="w-full flex justify-between items-start">
+                    <h4 className="text-3xl">{workout.name}</h4>
+                    <div className="text-right text-sm text-zinc-400">
+                      <p className="mb-2">
+                        <span className="italic font-bold text-lg bg-amber-800 rounded-full px-3 py-1 inline-block">
+                          {exercisesCount}{" "}
+                          {exercisesCount <= 1 ? "exercise" : "exercises"}
+                        </span>
+                      </p>
+                      <p>
+                        <span className="italic font-bold text-lg bg-amber-800 rounded-full px-3 py-1 inline-block">
+                          {setsCount} {setsCount <= 1 ? "set" : "sets"}
+                        </span>
+                      </p>
+                    </div>
                   </div>
-                  <ol className="w-full">
-                    {set.exercises.map((exercise) => (
-                      <li
-                        key={exercise.position}
-                        className="w-full flex flex-col gap-4 items-center sm:items-start bg-amber-800 p-4 rounded-lg mb-4"
-                      >
-                        <div className="w-full flex justify-between items-center">
-                          <h5 className="text-xl">{exercise.exercise.name}</h5>
-                          <div className="flex flex-row items-between gap-4">
-                            <p className="text-md">
-                              weight:{" "}
-                              <span className=" font-bold">
-                                {exercise.weight?.toString() + " kg" || ""}
-                              </span>
-                            </p>
-                            <p className="text-md">
-                              reps:{" "}
-                              <span className=" font-bold">
-                                {exercise.reps_time}
-                              </span>
-                            </p>
-                          </div>
-                        </div>
-                        {exercise.note && (
-                          <p className="text-sm text-amber-600 italic">
-                            Note: {exercise.note}
-                          </p>
-                        )}
-                      </li>
-                    ))}
-                  </ol>
+                  {workout.note && (
+                    <p className="text-sm text-amber-700">
+                      Note: {workout.note}
+                    </p>
+                  )}
                 </li>
-              ))}
-            </ol>
-          </li>
-        ))}
+              </Link>
+            </div>
+          );
+        })}
       </ol>
     </div>
   );
