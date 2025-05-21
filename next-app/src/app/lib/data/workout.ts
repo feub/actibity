@@ -23,6 +23,7 @@ export type SetWithExercises = {
 
 export type WorkoutWithSets = {
   id: number;
+  userId: number;
   name: string;
   note: string | null;
   createdAt: Date;
@@ -46,6 +47,31 @@ export async function getFullWorkouts(): Promise<WorkoutWithSets[]> {
         },
       },
     },
+    orderBy: {
+      updatedAt: "desc",
+    },
+  });
+}
+
+export async function getFullWorkoutsByUserId(
+  id: string,
+): Promise<WorkoutWithSets[]> {
+  return await prisma.workout.findMany({
+    include: {
+      sets: {
+        include: {
+          exercises: {
+            include: {
+              exercise: true,
+            },
+          },
+        },
+        orderBy: {
+          position: "asc",
+        },
+      },
+    },
+    where: { userId: parseInt(id) },
     orderBy: {
       updatedAt: "desc",
     },
