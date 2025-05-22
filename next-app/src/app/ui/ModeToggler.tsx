@@ -7,10 +7,19 @@ import {
   RadioGroup,
   useColorScheme,
 } from "@mui/material";
-import React from "react";
+import React, { useEffect } from "react";
 
 export default function ModeToggler() {
   const { mode, setMode } = useColorScheme();
+
+  // Sync Material UI theme with Tailwind dark mode
+  useEffect(() => {
+    if (mode === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
+    }
+  }, [mode]);
 
   if (!mode) {
     return null;
@@ -19,7 +28,7 @@ export default function ModeToggler() {
   return (
     <FormControl>
       <RadioGroup
-        aria-labelledby="demo-theme-toggle"
+        aria-labelledby="theme-toggle"
         name="theme-toggle"
         row
         value={mode}
