@@ -80,6 +80,7 @@ model Set {
 model SessionSet {
   id            Int               @id @default(autoincrement())
   originalSetId Int // No relation to allow template deletion
+  reps          Int               @default(1)
   position      Int               @default(0)
   session       WorkoutSession    @relation(fields: [sessionId], references: [id])
   sessionId     Int
