@@ -29,9 +29,9 @@ const theme = createTheme({
           default: "#ffffff",
         },
         lime: {
-          main: "#c0ca33", // Material UI lime[600]
-          light: "#e6ee9c", // Material UI lime[200]
-          dark: "#9e9d24", // Material UI lime[800]
+          main: "#81c784",
+          light: "#a5d6a7",
+          dark: "#66bb6a",
           contrastText: "#000000",
         },
       },
@@ -49,9 +49,9 @@ const theme = createTheme({
           default: "#0a0a0a",
         },
         lime: {
-          main: "#d4e157", // Material UI lime[400]
-          light: "#f0f4c3", // Material UI lime[100]
-          dark: "#afb42b", // Material UI lime[700]
+          main: "#4caf50",
+          light: "#66bb6a",
+          dark: "#43a047",
           contrastText: "#000000",
         },
       },
