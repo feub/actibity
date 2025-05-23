@@ -1,16 +1,18 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, Controller } from "react-hook-form";
 import { z } from "zod";
 import {
+  Alert,
   Button,
   FormControl,
   FormHelperText,
   Stack,
   TextField,
 } from "@mui/material";
+import { createWorkoutAction } from "@/app/actions/workout";
 
 const workoutFormSchema = z.object({
   name: z
@@ -22,25 +24,59 @@ const workoutFormSchema = z.object({
 type WorkoutFormFields = z.infer<typeof workoutFormSchema>;
 
 export default function WorkoutForm() {
-  const { control, handleSubmit, formState } = useForm<WorkoutFormFields>({
-    mode: "onBlur",
-    reValidateMode: "onBlur",
-    resolver: zodResolver(workoutFormSchema),
-    defaultValues: {
-      name: "",
-      note: "",
-    },
-  });
+  const [formStatus, setFormStatus] = useState<{
+    success?: boolean;
+    message?: string;
+  }>({});
+  const { control, handleSubmit, formState, reset } =
+    useForm<WorkoutFormFields>({
+      mode: "onBlur",
+      reValidateMode: "onBlur",
+      resolver: zodResolver(workoutFormSchema),
+      defaultValues: {
+        name: "",
+        note: "",
+      },
+    });
 
   const { isValid, isDirty, errors } = formState;
 
   console.log("errors:", errors);
 
-  const onSubmit = (data: unknown) => console.log(data);
+  const onSubmit = async (data: { name: string; note?: string }) => {
+    console.log(data);
+    try {
+      const result = await createWorkoutAction(1, data.name, data.note ?? "");
+
+      if (result.success) {
+        setFormStatus({
+          success: true,
+          message: "Workout created successfully!",
+        });
+        reset(); // Reset form after successful submission
+      } else {
+        setFormStatus({ success: false, message: result.error });
+      }
+    } catch (error) {
+      setFormStatus({ success: false, message: "An error occurred" });
+      console.error(error);
+    }
+  };
 
   return (
     <div className="mb-4 p-4 bg-zinc-900 rounded-xl shadow-md">
       <h3 className="text-2xl mb-2">Create a new workout</h3>
+
+      {formStatus.message && (
+        <Alert
+          severity={formStatus.success ? "success" : "error"}
+          sx={{ mb: 2 }}
+          onClose={() => setFormStatus({})}
+        >
+          {formStatus.message}
+        </Alert>
+      )}
+
       <form onSubmit={handleSubmit(onSubmit)}>
         <Stack spacing={2} direction="row" alignItems="center">
           <Controller

@@ -4,6 +4,7 @@ import { getUserById } from "../lib/data/user";
 import { lusitana } from "@/app/ui/fonts";
 import { Box } from "@mui/material";
 import WorkoutCardItem from "../ui/workoutOverview/WorkoutCardItem";
+import WorkoutForm from "../ui/workoutOverview/WorkoutForm";
 
 export default async function Page() {
   const user = await getUserById("1");
@@ -17,6 +18,7 @@ export default async function Page() {
         {user.name}
         {"'"}s workouts ({workouts.length})
       </h3>
+      <WorkoutForm />
       <ol className="w-full">
         {workouts.map((workout) => (
           <Box key={workout.id} sx={{ marginBottom: "1rem" }}>
