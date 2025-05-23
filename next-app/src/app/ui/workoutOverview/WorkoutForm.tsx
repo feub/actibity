@@ -39,12 +39,9 @@ export default function WorkoutForm() {
       },
     });
 
-  const { isValid, isDirty, errors } = formState;
-
-  console.log("errors:", errors);
+  const { isValid, isDirty } = formState;
 
   const onSubmit = async (data: { name: string; note?: string }) => {
-    console.log(data);
     try {
       const result = await createWorkoutAction(1, data.name, data.note ?? "");
 
