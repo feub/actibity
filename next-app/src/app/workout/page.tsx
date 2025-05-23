@@ -1,9 +1,9 @@
 import Link from "next/link";
-import { getFullWorkoutsByUserId } from "../lib/data/workout";
-import { getUserById } from "../lib/data/user";
+import { getFullWorkoutsByUserId } from "@/app/lib/data/workout";
+import { getUserById } from "@/app/lib/data/user";
 import { lusitana } from "@/app/ui/fonts";
 import { Box } from "@mui/material";
-import WorkoutCardItem from "../ui/workoutOverview/WorkoutCardItem";
+import WorkoutCardItem from "@/app/ui/workoutOverview/WorkoutCardItem";
 import WorkoutForm from "../ui/workoutOverview/WorkoutForm";
 
 export default async function Page() {
@@ -12,13 +12,16 @@ export default async function Page() {
 
   return (
     <>
-      <h3
-        className={`text-4xl ${lusitana.className} antialiased text-zinc-800 dark:text-zinc-300 my-8`}
-      >
-        {user.name}
-        {"'"}s workouts ({workouts.length})
-      </h3>
-      <WorkoutForm />
+      <div className="flex flex-row justify-between items-center">
+        <h3
+          className={`text-4xl ${lusitana.className} antialiased text-zinc-800 dark:text-zinc-300 my-8`}
+        >
+          {user.name}
+          {"'"}s workouts ({workouts.length})
+        </h3>
+        <WorkoutForm />
+      </div>
+
       <ol className="w-full">
         {workouts.map((workout) => (
           <Box key={workout.id} sx={{ marginBottom: "1rem" }}>
