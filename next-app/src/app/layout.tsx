@@ -5,8 +5,9 @@ import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@/theme";
 import { inter } from "@/app/ui/fonts";
 import "./globals.css";
-import Header from "./ui/header";
-import Footer from "./ui/footer";
+import Header from "@/app/ui/Header";
+import Footer from "@/app/ui/Footer";
+import { Container } from "@mui/material";
 
 export const metadata: Metadata = {
   title: "actibity",
@@ -25,7 +26,7 @@ export default function RootLayout({
           <ThemeProvider theme={theme}>
             <CssBaseline />
             <Header />
-            {children}
+            <Container maxWidth="lg">{children}</Container>
             <Footer />
           </ThemeProvider>
         </AppRouterCacheProvider>

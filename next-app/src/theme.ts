@@ -1,16 +1,16 @@
 "use client";
 
 import { createTheme } from "@mui/material/styles";
-// import { orange } from "@mui/material/colors";
+// import { lime } from "@mui/material/colors";
 
 // Augment the palette to include an ochre color
 declare module "@mui/material/styles" {
   interface Palette {
-    orange: Palette["primary"];
+    lime: Palette["primary"];
   }
 
   interface PaletteOptions {
-    orange?: PaletteOptions["primary"];
+    lime?: PaletteOptions["primary"];
   }
 }
 
@@ -20,7 +20,7 @@ const theme = createTheme({
       palette: {
         mode: "light",
         primary: {
-          main: "#f57b00",
+          main: "#5EA500",
         },
         secondary: {
           main: "#ededed",
@@ -28,11 +28,11 @@ const theme = createTheme({
         background: {
           default: "#ffffff",
         },
-        orange: {
-          main: "#ffe0b2",
-          light: "#fff3e0",
-          dark: "#ffcb80",
-          contrastText: "#f57b00",
+        lime: {
+          main: "#c0ca33", // Material UI lime[600]
+          light: "#e6ee9c", // Material UI lime[200]
+          dark: "#9e9d24", // Material UI lime[800]
+          contrastText: "#000000",
         },
       },
     },
@@ -40,7 +40,7 @@ const theme = createTheme({
       palette: {
         mode: "dark",
         primary: {
-          main: "#fff3e0",
+          main: "#497D00",
         },
         secondary: {
           main: "#171717",
@@ -48,11 +48,11 @@ const theme = createTheme({
         background: {
           default: "#0a0a0a",
         },
-        orange: {
-          main: "#f57b00",
-          light: "#ff9700",
-          dark: "#ef6b01",
-          contrastText: "#fff3e0",
+        lime: {
+          main: "#d4e157", // Material UI lime[400]
+          light: "#f0f4c3", // Material UI lime[100]
+          dark: "#afb42b", // Material UI lime[700]
+          contrastText: "#000000",
         },
       },
     },
