@@ -94,3 +94,21 @@ export async function getWorkoutById(id: string) {
     where: { id: parseInt(id) },
   });
 }
+
+export async function createWorkout(
+  userId: number,
+  name: string,
+  note: string,
+) {
+  const workout = await prisma.workoutTemplate.create({
+    data: {
+      user: {
+        connect: { id: userId },
+      },
+      name: name,
+      note: note,
+    },
+  });
+
+  return workout;
+}
