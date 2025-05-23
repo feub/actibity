@@ -32,7 +32,7 @@ export type WorkoutWithSets = {
 };
 
 export async function getFullWorkouts(): Promise<WorkoutWithSets[]> {
-  return await prisma.workout.findMany({
+  return await prisma.workoutTemplate.findMany({
     include: {
       sets: {
         include: {
@@ -56,7 +56,7 @@ export async function getFullWorkouts(): Promise<WorkoutWithSets[]> {
 export async function getFullWorkoutsByUserId(
   id: string,
 ): Promise<WorkoutWithSets[]> {
-  return await prisma.workout.findMany({
+  return await prisma.workoutTemplate.findMany({
     include: {
       sets: {
         include: {
@@ -79,7 +79,7 @@ export async function getFullWorkoutsByUserId(
 }
 
 export async function getWorkoutById(id: string) {
-  return await prisma.workout.findUniqueOrThrow({
+  return await prisma.workoutTemplate.findUniqueOrThrow({
     include: {
       sets: {
         include: {

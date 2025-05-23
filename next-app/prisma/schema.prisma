@@ -13,13 +13,14 @@ datasource db {
 
 // Entities
 model User {
-  id      Int      @id @default(autoincrement())
-  email   String   @unique
-  password String
-  name    String?
-  role    Role     @default(USER)
-  workouts   Workout[]
-  profile Profile?
+  id               Int               @id @default(autoincrement())
+  email            String            @unique
+  password         String
+  name             String?
+  role             Role              @default(USER)
+  workoutTemplates WorkoutTemplate[]
+  workoutSessions  WorkoutSession[]
+  profile          Profile?
 }
 
 model Profile {
@@ -29,15 +30,33 @@ model Profile {
   userId Int    @unique
 }
 
-model Workout {
-  id        Int      @id @default(autoincrement())
-  name      String   @db.VarChar(140)
+model WorkoutTemplate {
+  id        Int              @id @default(autoincrement())
+  name      String           @db.VarChar(140)
   note      String?
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  user   User   @relation(fields: [userId], references: [id])
-  userId Int
+  createdAt DateTime         @default(now())
+  updatedAt DateTime         @updatedAt
+  user      User             @relation(fields: [userId], references: [id])
+  userId    Int
   sets      Set[]
+  sessions  WorkoutSession[]
+
+  @@index([userId])
+}
+
+model WorkoutSession {
+  id                Int             @id @default(autoincrement())
+  date              DateTime        @default(now())
+  note              String?
+  completed         Boolean         @default(false)
+  template          WorkoutTemplate @relation(fields: [workoutTemplateId], references: [id])
+  workoutTemplateId Int
+  user              User            @relation(fields: [userId], references: [id])
+  userId            Int
+  sessionSets       SessionSet[]
+
+  @@index([userId])
+  @@index([workoutTemplateId])
 }
 
 model Exercise {
@@ -48,12 +67,25 @@ model Exercise {
 }
 
 model Set {
-  id        Int               @id @default(autoincrement())
-  reps      Int               @default(1)
-  position  Int               @default(0)
-  workout   Workout           @relation(fields: [workoutId], references: [id])
-  workoutId Int
-  exercises ExercisesOnSets[]
+  id              Int               @id @default(autoincrement())
+  reps            Int               @default(1)
+  position        Int               @default(0)
+  workoutTemplate WorkoutTemplate   @relation(fields: [workoutId], references: [id])
+  workoutId       Int
+  exercises       ExercisesOnSets[]
+
+  @@index([workoutId])
+}
+
+model SessionSet {
+  id            Int               @id @default(autoincrement())
+  originalSetId Int // No relation to allow template deletion
+  position      Int               @default(0)
+  session       WorkoutSession    @relation(fields: [sessionId], references: [id])
+  sessionId     Int
+  exercises     SessionExercise[]
+
+  @@index([sessionId])
 }
 
 model ExercisesOnSets {
@@ -68,6 +100,21 @@ model ExercisesOnSets {
 
   @@id([setId, exerciseId])
   @@index([setId])
+  @@index([exerciseId])
+}
+
+model SessionExercise {
+  id           Int        @id @default(autoincrement())
+  sessionSet   SessionSet @relation(fields: [sessionSetId], references: [id])
+  sessionSetId Int
+  exerciseId   Int // Reference to original exercise
+  weight       Decimal?   @db.Decimal(5, 2)
+  reps_time    String     @default("1")
+  position     Int        @default(0)
+  note         String?
+  completed    Boolean    @default(false)
+
+  @@index([sessionSetId])
   @@index([exerciseId])
 }
 
