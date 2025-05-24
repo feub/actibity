@@ -1,5 +1,4 @@
 import prisma from "@/database/prisma";
-import { Prisma } from "../../../../generated/prisma";
 
 export type ExerciseOnSetWithExercise = {
   exercise: {
@@ -7,7 +6,7 @@ export type ExerciseOnSetWithExercise = {
     name: string;
     note: string | null;
   };
-  weight: Prisma.Decimal | null;
+  weight: string | null;
   reps_time: string;
   position: number;
   note: string | null;
