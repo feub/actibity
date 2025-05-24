@@ -1,11 +1,8 @@
 import * as React from "react";
 import { WorkoutWithSets } from "@/app/lib/data/workout";
+import Link from "next/link";
 
-export default function WorkoutCardItem({
-  workout,
-}: {
-  workout: WorkoutWithSets;
-}) {
+export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
   const getWorkoutSetsAndExercisesCounts = (): {
     exercisesCount: number;
     setsCount: number;
@@ -28,7 +25,9 @@ export default function WorkoutCardItem({
     <div className=" bg-zinc-100 dark:bg-zinc-900 rounded-lg rounded-bl-4xl rounded-tr-4xl p-4">
       <div className="w-full flex justify-between items-start">
         <div className="flex flex-col gap-2">
-          <h4 className="text-3xl">{workout.name}</h4>
+          <h4 className="text-3xl">
+            <Link href={`/workout/${workout.id}/view`}>{workout.name}</Link>
+          </h4>
         </div>
         <div className="flex gap-4 text-sm text-zinc-400">
           <p className="mb-2">
