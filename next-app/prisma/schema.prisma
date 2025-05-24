@@ -94,7 +94,7 @@ model ExercisesOnSets {
   setId      Int
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
   exerciseId Int
-  weight     Decimal? @db.Decimal(5, 2)
+  weight     String?
   reps_time  String   @default("1")
   position   Int      @default(0)
   note       String?
