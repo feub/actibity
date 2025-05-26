@@ -1,3 +1,5 @@
+"use client";
+
 import React from "react";
 import { SetWithExercises } from "@/app/lib/data/workout";
 import Timeline from "@mui/lab/Timeline";
@@ -15,7 +17,7 @@ export default function WorkoutViewSetItem({ set }: { set: SetWithExercises }) {
   return (
     <div className=" bg-zinc-200 dark:bg-zinc-800 rounded-lg rounded-bl-4xl rounded-tr-4xl p-4 mb-4">
       <div className="w-full flex justify-between items-center">
-        <h4 className="text-2xl mb-4">
+        <h4 className="text-lg mb-4">
           Set to be repeated{" "}
           <span className="text-lime-600 dark:text-lime-400 font-bold">
             {set.reps}
