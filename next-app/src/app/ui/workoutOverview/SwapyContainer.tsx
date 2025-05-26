@@ -1,8 +1,8 @@
 "use client";
 
 import { Box } from "@mui/material";
-import { useEffect, useRef } from "react";
-import { createSwapy, Swapy } from "swapy";
+import { useEffect, useMemo, useRef, useState } from "react";
+import { createSwapy, Swapy, utils } from "swapy";
 import WorkoutItem from "./WorkoutItem";
 import { WorkoutWithSets } from "@/app/lib/data/workout";
 
@@ -13,10 +13,28 @@ export default function SwapyContainer({
 }) {
   const swapyRef = useRef<Swapy | null>(null);
   const swapyContainerRef = useRef<HTMLOListElement>(null);
+  const [slotItemMap, setSlotItemMap] = useState(
+    utils.initSlotItemMap(workouts, "id"),
+  );
+  const slottedItems = useMemo(
+    () => utils.toSlottedItems(workouts, "id", slotItemMap),
+    [workouts, slotItemMap],
+  );
+
+  useEffect(() => {
+    utils.dynamicSwapy(
+      swapyRef.current,
+      workouts,
+      "id",
+      slotItemMap,
+      setSlotItemMap,
+    );
+  }, [workouts]);
 
   useEffect(() => {
     if (swapyContainerRef.current) {
       swapyRef.current = createSwapy(swapyContainerRef.current, {
+        manualSwap: true,
         // animation: 'dynamic'
         // swapMode: 'drop',
         // autoScrollOnDrag: true,
@@ -34,6 +52,7 @@ export default function SwapyContainer({
         console.log("start", event);
       });
       swapyRef.current.onSwap((event) => {
+        setSlotItemMap(event.newSlotItemMap.asArray);
         console.log("swap", event);
       });
       swapyRef.current.onSwapEnd((event) => {
@@ -49,14 +68,14 @@ export default function SwapyContainer({
   return (
     <>
       <ol className="w-full" ref={swapyContainerRef}>
-        {workouts.map((workout) => (
+        {slottedItems.map(({ slotId, itemId, item: workout }) => (
           <Box
-            key={workout.id}
+            key={slotId}
             sx={{ marginBottom: "1rem" }}
-            data-swapy-slot={workout.id}
+            data-swapy-slot={slotId}
           >
-            <div data-swapy-item={workout.id}>
-              <WorkoutItem workout={workout} />
+            <div data-swapy-item={itemId}>
+              {workout && <WorkoutItem workout={workout} />}
             </div>
           </Box>
         ))}

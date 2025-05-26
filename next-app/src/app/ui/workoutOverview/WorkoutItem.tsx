@@ -1,6 +1,9 @@
 import * as React from "react";
 import { WorkoutWithSets } from "@/app/lib/data/workout";
+import { deleteWorkoutByIdAction } from "@/app/actions/workout";
 import Link from "next/link";
+import WorkoutAddSetForm from "./WorkoutAddSetForm";
+import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
 
 export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
   const getWorkoutSetsAndExercisesCounts = (): {
@@ -27,7 +30,20 @@ export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
         <div className="flex flex-col gap-2">
           <h4 className="text-3xl">
             <Link href={`/workout/${workout.id}/view`}>{workout.name}</Link>
+            <Link
+              href={"#"}
+              onClick={() => deleteWorkoutByIdAction(workout.id.toString())}
+            >
+              <DeleteOutlineIcon className="text-zinc-950 hover:text-red-700 transition-colors duration-200 ml-2" />
+            </Link>
           </h4>
+
+          <div className="mt-2">
+            <WorkoutAddSetForm
+              workoutId={workout.id}
+              workoutName={workout.name}
+            />
+          </div>
         </div>
         <div className="flex gap-4 text-sm text-zinc-400">
           <p className="mb-2">
