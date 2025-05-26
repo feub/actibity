@@ -1,7 +1,8 @@
 import { getWorkoutById } from "@/app/lib/data/workout";
-import Link from "next/link";
 import { lusitana } from "@/app/ui/fonts";
 import WorkoutViewCardItem from "@/app/ui/workoutView/WorkoutViewSetItem";
+import { Button } from "@mui/material";
+import ChevronLeftOutlinedIcon from "@mui/icons-material/ChevronLeftOutlined";
 
 export default async function Page(props: { params: Promise<{ id: string }> }) {
   const params = await props.params;
@@ -25,9 +26,15 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
           ))}
         </ol>
       </div>
-      <p>
-        <Link href={`/workout`}>Go back</Link>
-      </p>
+      <Button
+        href="/workout"
+        color="primary"
+        size="small"
+        variant="outlined"
+        sx={{ mt: 4 }}
+      >
+        <ChevronLeftOutlinedIcon /> Go back
+      </Button>
     </>
   );
 }
