@@ -44,13 +44,21 @@ const workoutFormSchema = z.object({
 type WorkoutFormFields = z.infer<typeof workoutFormSchema>;
 
 export default function WorkoutForm() {
-  const [open, setOpen] = useState(false);
-  const handleOpen = () => setOpen(true);
-  const handleClose = () => setOpen(false);
   const [formStatus, setFormStatus] = useState<{
     success?: boolean;
     message?: string;
   }>({});
+
+  const [open, setOpen] = useState(false);
+  const handleOpen = () => {
+    setOpen(true);
+    setFormStatus({});
+  };
+  const handleClose = () => {
+    setOpen(false);
+    setFormStatus({});
+  };
+
   const { control, handleSubmit, formState, reset } =
     useForm<WorkoutFormFields>({
       mode: "onBlur",
@@ -71,9 +79,13 @@ export default function WorkoutForm() {
       if (result.success) {
         setFormStatus({
           success: true,
-          message: "Workout created successfully!",
+          message: "Workout created successfully! You can now add sets to it.",
         });
-        reset(); // Reset form after successful submission
+
+        setTimeout(() => {
+          setOpen(false);
+          reset();
+        }, 3000);
       } else {
         setFormStatus({ success: false, message: result.error });
       }
