@@ -90,7 +90,7 @@ model SessionSet {
 }
 
 model ExercisesOnSets {
-  set        Set      @relation(fields: [setId], references: [id])
+  set        Set      @relation(fields: [setId], references: [id], onDelete: Cascade)
   setId      Int
   exercise   Exercise @relation(fields: [exerciseId], references: [id])
   exerciseId Int
