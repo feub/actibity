@@ -154,7 +154,6 @@ export default function WorkoutAddSetForm({
       >
         <Box sx={style}>
           <h3 className="text-2xl mb-4">Add set to {workoutName}</h3>
-          <p>Workout ID: {workoutId}</p>
 
           <div className="mb-4 p-4 bg-zinc-900 rounded-xl shadow-md">
             {formStatus.message && (
