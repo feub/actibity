@@ -4,6 +4,7 @@ import { deleteWorkoutByIdAction } from "@/app/actions/workout";
 import Link from "next/link";
 import WorkoutAddSetForm from "./WorkoutAddSetForm";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import DragIndicatorOutlinedIcon from "@mui/icons-material/DragIndicatorOutlined";
 
 export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
   const getWorkoutSetsAndExercisesCounts = (): {
@@ -25,24 +26,31 @@ export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
     getWorkoutSetsAndExercisesCounts();
 
   return (
-    <div className=" bg-zinc-100 dark:bg-zinc-900 rounded-lg rounded-bl-4xl rounded-tr-4xl p-4">
+    <div className="bg-zinc-100 dark:bg-zinc-900 rounded-lg p-4">
       <div className="w-full flex justify-between items-start">
-        <div className="flex flex-col gap-2">
-          <h4 className="text-3xl">
-            <Link href={`/workout/${workout.id}/view`}>{workout.name}</Link>
-            <Link
-              href={"#"}
-              onClick={() => deleteWorkoutByIdAction(workout.id.toString())}
-            >
-              <DeleteOutlineIcon className="text-zinc-950 hover:text-red-700 transition-colors duration-200 ml-2" />
-            </Link>
-          </h4>
+        <div className="flex items-center gap-4">
+          <DragIndicatorOutlinedIcon
+            className="text-zinc-500 dark:text-zinc-400 hover:text-zinc-700 dark:hover:text-zinc-300 transition-colors duration-200 cursor-move"
+            data-swapy-handle
+          />
 
-          <div className="mt-2">
-            <WorkoutAddSetForm
-              workoutId={workout.id}
-              workoutName={workout.name}
-            />
+          <div className="flex flex-col gap-2">
+            <h4 className="text-3xl">
+              <Link href={`/workout/${workout.id}/view`}>{workout.name}</Link>
+              <Link
+                href={"#"}
+                onClick={() => deleteWorkoutByIdAction(workout.id.toString())}
+              >
+                <DeleteOutlineIcon className="text-zinc-950 hover:text-red-700 transition-colors duration-200 ml-2" />
+              </Link>
+            </h4>
+
+            <div className="mt-2">
+              <WorkoutAddSetForm
+                workoutId={workout.id}
+                workoutName={workout.name}
+              />
+            </div>
           </div>
         </div>
         <div className="flex gap-4 text-sm text-zinc-400">
