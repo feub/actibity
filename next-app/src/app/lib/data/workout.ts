@@ -25,6 +25,7 @@ export type WorkoutWithSets = {
   userId: number;
   name: string;
   note: string | null;
+  position: number;
   createdAt: Date;
   updatedAt: Date;
   sets: SetWithExercises[];
@@ -46,9 +47,7 @@ export async function getFullWorkouts(): Promise<WorkoutWithSets[]> {
         },
       },
     },
-    orderBy: {
-      updatedAt: "desc",
-    },
+    orderBy: [{ position: "asc" }, { updatedAt: "desc" }],
   });
 }
 
@@ -71,9 +70,7 @@ export async function getFullWorkoutsByUserId(
       },
     },
     where: { userId: parseInt(id) },
-    orderBy: {
-      updatedAt: "desc",
-    },
+    orderBy: [{ position: "asc" }, { updatedAt: "desc" }],
   });
 }
 
@@ -99,6 +96,8 @@ export async function createWorkout(
   name: string,
   note: string,
 ) {
+  const newWorkoutPosition = await getNewWorkoutPosition();
+
   const workout = await prisma.workoutTemplate.create({
     data: {
       user: {
@@ -106,21 +105,28 @@ export async function createWorkout(
       },
       name: name,
       note: note,
+      position: newWorkoutPosition,
     },
   });
 
   return workout;
 }
 
-async function getLastSetPositionForWorkout(
-  workoutId: number,
-): Promise<number> {
-  const lastSet = await prisma.set.findFirst({
+async function getNewWorkoutPosition(): Promise<number> {
+  const lastWorkoutPos = await prisma.workoutTemplate.findFirst({
+    orderBy: { position: "desc" },
+  });
+
+  return lastWorkoutPos ? lastWorkoutPos.position + 100 : 100;
+}
+
+async function getNewSetPositionForWorkout(workoutId: number): Promise<number> {
+  const lastSetPos = await prisma.set.findFirst({
     where: { id: workoutId },
     orderBy: { position: "desc" },
   });
 
-  return lastSet ? lastSet.position + 100 : 100;
+  return lastSetPos ? lastSetPos.position + 100 : 100;
 }
 
 export async function createWorkoutSetWithExercises(
@@ -133,7 +139,7 @@ export async function createWorkoutSetWithExercises(
     note?: string;
   }[],
 ) {
-  const lastSetPosition = await getLastSetPositionForWorkout(workoutId);
+  const newSetPosition = await getNewSetPositionForWorkout(workoutId);
 
   // Look up or create exercises for each name
   const exerciseIds = await Promise.all(
@@ -170,7 +176,7 @@ export async function createWorkoutSetWithExercises(
         connect: { id: workoutId },
       },
       reps: reps,
-      position: lastSetPosition,
+      position: newSetPosition,
       exercises: {
         create: exerciseIds.map((item) => ({
           exercise: {
