@@ -85,6 +85,7 @@ export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
             aria-haspopup="true"
             aria-expanded={openMenu ? "true" : undefined}
             onClick={handleClick}
+            sx={{ margin: 0, padding: 0, minWidth: "auto" }}
           >
             <MoreVertOutlinedIcon className="self-center text-stone-400" />
           </Button>

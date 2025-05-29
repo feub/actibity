@@ -16,18 +16,7 @@ import Modal from "@mui/material/Modal";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { createWorkoutAction } from "@/app/actions/workout";
-
-const style = {
-  position: "absolute",
-  top: "50%",
-  left: "50%",
-  transform: "translate(-50%, -50%)",
-  width: 600,
-  bgcolor: "background.paper",
-  border: "2px solid #000",
-  boxShadow: 24,
-  p: 4,
-};
+import { barlow } from "../fonts";
 
 const NAME_MIN_LENGTH = 5;
 
@@ -82,10 +71,8 @@ export default function WorkoutForm() {
           message: "Workout created successfully! You can now add sets to it.",
         });
 
-        setTimeout(() => {
-          setOpen(false);
-          reset();
-        }, 3000);
+        reset();
+        setOpen(false);
       } else {
         setFormStatus({ success: false, message: result.error });
       }
@@ -110,101 +97,101 @@ export default function WorkoutForm() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={style}>
+        <div
+          className={`absolute top-[50%] left-[50%] w-[600px] -translate-x-1/2 -translate-y-1/2 ${barlow.className} antialiased font-semibold bg-stone-100 dark:bg-stone-800 rounded-lg p-6 shadow-lg`}
+        >
           <h3 className="text-2xl mb-4">Create a new workout</h3>
 
-          <div className="mb-4 p-4 bg-zinc-900 rounded-xl shadow-md">
-            {formStatus.message && (
-              <Alert
-                severity={formStatus.success ? "success" : "error"}
-                sx={{ mb: 2 }}
-                onClose={() => setFormStatus({})}
+          {formStatus.message && (
+            <Alert
+              severity={formStatus.success ? "success" : "error"}
+              sx={{ mb: 2 }}
+              onClose={() => setFormStatus({})}
+            >
+              {formStatus.message}
+            </Alert>
+          )}
+
+          <form onSubmit={handleSubmit(onSubmit)}>
+            <Controller
+              name="name"
+              control={control}
+              render={({
+                field: { value, onChange, onBlur, ref },
+                fieldState: { error },
+              }) => (
+                <FormControl fullWidth>
+                  <TextField
+                    autoFocus
+                    name="name"
+                    id="name"
+                    label="Workout name"
+                    variant="outlined"
+                    inputRef={ref}
+                    value={value}
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    required
+                    fullWidth
+                  />
+                  <FormHelperText sx={{ color: "red" }}>
+                    {error?.message ?? ""}
+                  </FormHelperText>
+                </FormControl>
+              )}
+            />
+
+            <Controller
+              name="note"
+              control={control}
+              render={({
+                field: { value, onChange, onBlur },
+                fieldState: { error },
+              }) => (
+                <FormControl fullWidth sx={{ marginY: "1rem" }}>
+                  <TextField
+                    name="note"
+                    id="note"
+                    label="Note"
+                    variant="outlined"
+                    value={value}
+                    onBlur={onBlur}
+                    onChange={onChange}
+                    error={Boolean(error)}
+                    multiline
+                    rows={4}
+                  />
+                  <FormHelperText>The note is optional</FormHelperText>
+                </FormControl>
+              )}
+            />
+
+            <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
+              <Button
+                variant="contained"
+                color="primary"
+                type="submit"
+                disabled={!isValid || !isDirty}
+                sx={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  gap: "0.5rem",
+                }}
               >
-                {formStatus.message}
-              </Alert>
-            )}
-
-            <form onSubmit={handleSubmit(onSubmit)}>
-              <Controller
-                name="name"
-                control={control}
-                render={({
-                  field: { value, onChange, onBlur, ref },
-                  fieldState: { error },
-                }) => (
-                  <FormControl fullWidth>
-                    <TextField
-                      autoFocus
-                      name="name"
-                      id="name"
-                      label="Workout name"
-                      variant="outlined"
-                      inputRef={ref}
-                      value={value}
-                      onBlur={onBlur}
-                      onChange={onChange}
-                      error={Boolean(error)}
-                      required
-                      fullWidth
-                    />
-                    <FormHelperText sx={{ color: "red" }}>
-                      {error?.message ?? ""}
-                    </FormHelperText>
-                  </FormControl>
-                )}
-              />
-
-              <Controller
-                name="note"
-                control={control}
-                render={({
-                  field: { value, onChange, onBlur },
-                  fieldState: { error },
-                }) => (
-                  <FormControl fullWidth sx={{ marginY: "1rem" }}>
-                    <TextField
-                      name="note"
-                      id="note"
-                      label="Note"
-                      variant="outlined"
-                      value={value}
-                      onBlur={onBlur}
-                      onChange={onChange}
-                      error={Boolean(error)}
-                      multiline
-                      rows={4}
-                    />
-                    <FormHelperText>The note is optional</FormHelperText>
-                  </FormControl>
-                )}
-              />
-
-              <Box sx={{ display: "flex", justifyContent: "flex-end" }}>
-                <Button
-                  variant="contained"
-                  color="primary"
-                  type="submit"
-                  disabled={!isValid || !isDirty}
-                  sx={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    gap: "0.5rem",
-                  }}
-                >
-                  <AddOutlinedIcon /> Add
-                </Button>
-                <Button
-                  variant="outlined"
-                  color="primary"
-                  onClick={handleClose}
-                  sx={{ marginLeft: "1rem" }}
-                >
-                  Cancel
-                </Button>
-              </Box>
-            </form>
-          </div>
-        </Box>
+                <AddOutlinedIcon /> Add
+              </Button>
+              <Button
+                variant="outlined"
+                color="primary"
+                onClick={handleClose}
+                sx={{ marginLeft: "1rem" }}
+              >
+                Cancel
+              </Button>
+            </Box>
+          </form>
+        </div>
       </Modal>
     </>
   );

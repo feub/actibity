@@ -3,7 +3,7 @@ import { AppRouterCacheProvider } from "@mui/material-nextjs/v15-appRouter";
 import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import theme from "@/theme";
-import { inter } from "@/app/ui/fonts";
+import { barlow } from "@/app/ui/fonts";
 import "./globals.css";
 import Header from "@/app/ui/Header";
 import Footer from "@/app/ui/Footer";
@@ -20,8 +20,8 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={inter.className}>
-      <body suppressHydrationWarning className={`${inter} antialiased`}>
+    <html lang="en" className={`${barlow.className} antialiased`}>
+      <body suppressHydrationWarning>
         <AppRouterCacheProvider>
           <ThemeProvider theme={theme}>
             <CssBaseline />
