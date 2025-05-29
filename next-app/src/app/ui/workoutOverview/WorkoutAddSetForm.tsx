@@ -11,6 +11,9 @@ import {
   FormControl,
   FormHelperText,
   IconButton,
+  ListItemIcon,
+  ListItemText,
+  MenuItem,
   TextField,
   Typography,
 } from "@mui/material";
@@ -137,15 +140,12 @@ export default function WorkoutAddSetForm({
 
   return (
     <>
-      <Button
-        variant="contained"
-        color="secondary"
-        onClick={handleOpen}
-        className="flex items-center gap-2"
-        size="small"
-      >
-        <AddCircleOutlineOutlinedIcon /> Add set
-      </Button>
+      <MenuItem onClick={handleOpen}>
+        <ListItemIcon>
+          <AddCircleOutlineOutlinedIcon />
+        </ListItemIcon>
+        <ListItemText>Add set</ListItemText>
+      </MenuItem>
       <Modal
         open={open}
         onClose={handleClose}
