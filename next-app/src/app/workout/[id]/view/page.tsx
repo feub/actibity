@@ -13,13 +13,13 @@ export default async function Page(props: { params: Promise<{ id: string }> }) {
   return (
     <>
       <h3
-        className={`text-4xl ${lusitana.className} antialiased text-zinc-800 dark:text-zinc-300 my-8`}
+        className={`text-4xl ${lusitana.className} antialiased text-gray-800 dark:text-gray-300 my-8`}
       >
         Workout {workout.name}
       </h3>
 
-      <div className=" bg-zinc-100 dark:bg-zinc-900 rounded-lg rounded-bl-4xl rounded-tr-4xl p-4">
-        {workout.note && <div className="mb-4">{workout.note}</div>}
+      {workout.note && <div className="mb-4">{workout.note}</div>}
+      <div className="border border-gray-300 dark:border-gray-700 rounded-xl p-6 mb-8">
         <ol className="w-full">
           {workout.sets.map((set) => (
             <WorkoutViewCardItem key={set.id} set={set} />

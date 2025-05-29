@@ -2,78 +2,61 @@
 
 import React from "react";
 import { SetWithExercises } from "@/app/lib/data/workout";
-import Timeline from "@mui/lab/Timeline";
-import TimelineItem from "@mui/lab/TimelineItem";
-import TimelineSeparator from "@mui/lab/TimelineSeparator";
-import TimelineConnector from "@mui/lab/TimelineConnector";
-import TimelineContent from "@mui/lab/TimelineContent";
-import TimelineDot from "@mui/lab/TimelineDot";
-import TimelineOppositeContent, {
-  timelineOppositeContentClasses,
-} from "@mui/lab/TimelineOppositeContent";
-import { Typography, Chip } from "@mui/material";
+import { barlow } from "@/app/ui/fonts";
+import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
 
 export default function WorkoutViewSetItem({ set }: { set: SetWithExercises }) {
   return (
-    <div className=" bg-zinc-200 dark:bg-zinc-800 rounded-lg rounded-bl-4xl rounded-tr-4xl p-4 mb-4">
-      <div className="w-full flex justify-between items-center">
-        <h4 className="text-lg mb-4">
-          Set to be repeated{" "}
-          <span className="text-lime-600 dark:text-lime-400 font-bold">
-            {set.reps}
-          </span>{" "}
-          times
-        </h4>
-      </div>
-      <ol className="w-full">
-        {set.exercises.map((exercise, idx) => (
-          <Timeline
-            sx={{
-              [`& .${timelineOppositeContentClasses.root}`]: {
-                flex: 0.2,
-              },
-            }}
-            key={idx}
-          >
-            <TimelineItem>
-              <TimelineOppositeContent color="text.secondary">
-                {exercise.reps_time} reps
-              </TimelineOppositeContent>
-              <TimelineSeparator>
-                <TimelineDot variant="outlined" />
-                <TimelineConnector />
-              </TimelineSeparator>
-              <TimelineContent
-                sx={{ fontSize: "1.5rem", marginTop: "-0.4rem" }}
+    <div className="mb-8">
+      <h4 className="text-lg mb-2 text-gray-600 dark:text-gray-500">
+        Set to be repeated{" "}
+        <span className="text-orange-500 dark:text-orange-600 font-bold">
+          {set.reps}
+        </span>{" "}
+        times
+      </h4>
+
+      <div className=" bg-gray-200 dark:bg-gray-800 rounded-xl p-4 mb-4">
+        <div className="w-full">
+          <div>
+            {set.exercises.map((exercise, idx) => (
+              <div
+                key={idx}
+                className="flex justify-start items-start align-top gap-2"
               >
-                <Typography
-                  variant="h5"
-                  component="span"
-                  sx={{ color: "lime.main", display: "flex", gap: "0.5rem" }}
-                >
-                  {exercise.exercise.name}
-                  <Chip
-                    label={exercise.weight?.toString() + " kg" || ""}
-                    sx={{
-                      backgroundColor: "lime.light",
-                      color: "lime.contrastText",
-                    }}
-                  />
-                  {/* TODO: Add delete exercise here */}
-                </Typography>
-                {exercise.note && (
-                  <Typography
-                    sx={{ fontSize: ".85rem", marginTop: "0.75rem" }}
-                    className="text-zinc-500"
+                <div>
+                  <span
+                    className={`${barlow.className} antialiased font-bold text-orange-500 dark:text-orange-600`}
                   >
-                    {exercise.note}
-                  </Typography>
-                )}
-              </TimelineContent>
-            </TimelineItem>
-          </Timeline>
-        ))}
-      </ol>
+                    {exercise.reps_time}
+                  </span>{" "}
+                  reps
+                </div>
+                <ChevronRightOutlinedIcon />
+                <div>
+                  <div
+                    className={`font-bold text-orange-500 dark:text-orange-600 text-2xl leading-none`}
+                  >
+                    {exercise.exercise.name}
+                  </div>
+                  {exercise.note && (
+                    <div className="text-sm text-gray-500 mt-2 mb-4">
+                      {exercise.note}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <div
+                    className={`font-semibold text-sm text-gray-900 dark:text-gray-300 bg-gray-300 dark:bg-gray-600 rounded-full px-3 py-1`}
+                  >
+                    {exercise.weight?.toString() + " kg" || ""}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     </div>
   );
 }
