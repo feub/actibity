@@ -59,6 +59,7 @@ export default function WorkoutViewSetItem({ set }: { set: SetWithExercises }) {
                       color: "lime.contrastText",
                     }}
                   />
+                  {/* TODO: Add delete exercise here */}
                 </Typography>
                 {exercise.note && (
                   <Typography

@@ -16,7 +16,7 @@ import Modal from "@mui/material/Modal";
 import AddCircleOutlineOutlinedIcon from "@mui/icons-material/AddCircleOutlineOutlined";
 import AddOutlinedIcon from "@mui/icons-material/AddOutlined";
 import { createWorkoutAction } from "@/app/actions/workout";
-import { barlow } from "../fonts";
+import { barlow } from "@/app/ui/fonts";
 
 const NAME_MIN_LENGTH = 5;
 
@@ -98,7 +98,7 @@ export default function WorkoutForm() {
         aria-describedby="modal-modal-description"
       >
         <div
-          className={`absolute top-[50%] left-[50%] w-[600px] -translate-x-1/2 -translate-y-1/2 ${barlow.className} antialiased font-semibold bg-stone-100 dark:bg-stone-800 rounded-lg p-6 shadow-lg`}
+          className={`absolute top-[50%] left-[50%] w-[600px] -translate-x-1/2 -translate-y-1/2 ${barlow.className} antialiased font-semibold bg-gray-100 dark:bg-gray-800 rounded-lg p-6 shadow-lg`}
         >
           <h3 className="text-2xl mb-4">Create a new workout</h3>
 

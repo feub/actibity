@@ -12,7 +12,7 @@ export default async function Page() {
     <>
       <div className="flex flex-row justify-between items-center">
         <h3
-          className={`text-4xl ${lusitana.className} antialiased text-zinc-800 dark:text-zinc-300 my-8`}
+          className={`text-4xl ${lusitana.className} antialiased text-gray-800 dark:text-gray-300 my-8`}
         >
           {user.name}
           {"'"}s workouts ({workouts.length})

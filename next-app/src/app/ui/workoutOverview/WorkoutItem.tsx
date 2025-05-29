@@ -40,18 +40,18 @@ export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
     getWorkoutSetsAndExercisesCounts();
 
   return (
-    <div className="bg-stone-200 dark:bg-stone-900 rounded-lg p-4">
+    <div className="bg-gray-200 dark:bg-gray-900 rounded-lg p-4">
       <div className="w-full flex justify-between items-start">
         <div className="flex items-center gap-4">
           <DragIndicatorOutlinedIcon
-            className="text-stone-500 dark:text-stone-400 hover:text-stone-700 dark:hover:text-stone-300 transition-colors duration-200 cursor-move"
+            className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300 transition-colors duration-200 cursor-move"
             data-swapy-handle
           />
           <div className="flex flex-col gap-2">
             <h4 className="text-3xl">
               <Link
                 href={`/workout/${workout.id}/view`}
-                className={`${barlow.className} font-bold antialiased text-stone-700 dark:text-stone-300`}
+                className={`${barlow.className} font-bold antialiased text-gray-700 dark:text-gray-300`}
               >
                 {workout.name}
               </Link>
@@ -63,14 +63,14 @@ export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
             className={`flex gap-2 ${barlow.className} text-lg font-semibold antialiased`}
           >
             <span
-              className={`text-stone-100 dark:text-stone-300 bg-stone-600 dark:bg-black rounded-full px-3 py-1 inline-block`}
+              className={`text-gray-100 dark:text-gray-300 bg-gray-600 dark:bg-black rounded-full px-3 py-1 inline-block`}
             >
               {setsCount > 0
                 ? `${setsCount} ${setsCount <= 1 ? "set" : "sets"}`
                 : "No sets"}
             </span>
             <span
-              className={`text-stone-900 dark:text-stone-300 bg-stone-300 dark:bg-stone-800  rounded-full px-3 py-1 inline-block`}
+              className={`text-gray-900 dark:text-gray-300 bg-gray-300 dark:bg-gray-800  rounded-full px-3 py-1 inline-block`}
             >
               {exercisesCount > 0
                 ? `${exercisesCount} ${
@@ -87,7 +87,7 @@ export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
             onClick={handleClick}
             sx={{ margin: 0, padding: 0, minWidth: "auto" }}
           >
-            <MoreVertOutlinedIcon className="self-center text-stone-400" />
+            <MoreVertOutlinedIcon className="self-center text-gray-400" />
           </Button>
           <Menu
             id="worlout-menu"
@@ -110,7 +110,7 @@ export default function WorkoutItem({ workout }: { workout: WorkoutWithSets }) {
             />
             <MenuItem
               onClick={() => deleteWorkoutByIdAction(workout.id.toString())}
-              className="bg-stone-300"
+              className="bg-gray-300"
             >
               <ListItemIcon>
                 <DeleteOutlineIcon className="text-red-700" />
