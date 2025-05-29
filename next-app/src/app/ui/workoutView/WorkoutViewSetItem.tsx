@@ -4,6 +4,7 @@ import React from "react";
 import { SetWithExercises } from "@/app/lib/data/workout";
 import { barlow } from "@/app/ui/fonts";
 import ChevronRightOutlinedIcon from "@mui/icons-material/ChevronRightOutlined";
+import SetMenu from "@/app/ui/workoutView/SetMenu";
 
 export default function WorkoutViewSetItem({ set }: { set: SetWithExercises }) {
   return (
@@ -16,7 +17,7 @@ export default function WorkoutViewSetItem({ set }: { set: SetWithExercises }) {
         times
       </h4>
 
-      <div className=" bg-gray-200 dark:bg-gray-800 rounded-xl p-4 mb-4">
+      <div className="flex justify-between bg-gray-200 dark:bg-gray-800 rounded-xl p-4 mb-4">
         <div className="w-full">
           <div>
             {set.exercises.map((exercise, idx) => (
@@ -55,6 +56,10 @@ export default function WorkoutViewSetItem({ set }: { set: SetWithExercises }) {
               </div>
             ))}
           </div>
+        </div>
+
+        <div>
+          <SetMenu />
         </div>
       </div>
     </div>
